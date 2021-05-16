@@ -1,4 +1,7 @@
-#Instala bibliotecas necessarias
+#Remove objetos da memória do R
+rm(list=ls(all=TRUE)) 
+
+#Instala bibliotecas
 install.packages('arules') #Biblioteca para utilizar o apriori
 install.packages('arulesViz') #Biblioteca para gera o grafo
 
@@ -13,19 +16,15 @@ data(Groceries)
 itemFrequencyPlot(Groceries,top =5)
 
 ## Encontrando as regras de associação com o algoritmo Apriori
-regras <- apriori(
+rule <- apriori(
   Groceries,
   parameter = list(support = 0.01,
                    confidence = 0.20,
                    minlen = 2,
                    maxlen = 2)
 )
-#Scatterplot interativo. Passe o mouse sobre os pontos para visualizar as metricas
-plot(regras, method = "scatter", engine = "htmlwidget",max = 300)
+#cria um scatterplot interativo
+plot(rule, method = "scatter", engine = "htmlwidget",max = 300)
 
 #Grafo interativo
-plot(regras, method = "graph", engine = "htmlwidget",max = 100)
-
-#Convertendo as regras para data frame
-df <- as(regras, "data.frame")
-View(df)
+plot(rule, method = "graph", engine = "htmlwidget",max = 100)
